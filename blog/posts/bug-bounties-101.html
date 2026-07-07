@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>j0yb0y ~ bug bounties 101</title>
+  <link rel="icon" type="image/png" href="../../ppic.png">
+  <link rel="stylesheet" href="../../style.css">
+</head>
+<body>
+  <div id="matrix-canvas"></div>
+
+  <nav>
+    <div class="nav-container">
+      <span class="nav-prompt">j0yb0y@site:~/blog/posts$</span>
+      <ul class="nav-links">
+        <li><a href="../../index.html">~/home</a></li>
+        <li><a href="../../index.html#skills">~/skills</a></li>
+        <li><a href="../../index.html#projects">~/projects</a></li>
+        <li><a href="../index.html">~/blog</a></li>
+        <li><a href="../../index.html#contact">~/contact</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <main>
+    <article id="post">
+      <h2 class="section-title"><span class="prompt">#</span> ~/blog/posts/bug-bounties-101</h2>
+      <div class="divider">---</div>
+      <p class="blog-meta">2026-06-15 &middot; 5 min read</p>
+
+      <div class="post-content">
+        <p><span class="prompt">$</span> cat getting-started-with-bug-bounties.md</p>
+
+        <h3>Introduction</h3>
+        <p>Bug bounty programs are one of the best ways to get started in cybersecurity. They offer real-world experience, potential income, and a path to recognition in the security community.</p>
+
+        <h3>What You'll Need</h3>
+        <ul>
+          <li>Basic understanding of web technologies (HTTP, HTML, JavaScript)</li>
+          <li>A curious mindset</li>
+          <li>Patience — most bugs take time to find</li>
+        </ul>
+
+        <h3>Recommended Platforms</h3>
+        <ul>
+          <li><strong>HackerOne</strong> — Largest platform, plenty of public programs</li>
+          <li><strong>Bugcrowd</strong> — Good for beginners with their education resources</li>
+          <li><strong>Intigriti</strong> — European-based, beginner friendly</li>
+        </ul>
+
+        <h3>Common First Bugs</h3>
+        <p>Start with these vulnerability types — they're common and often have a lower bar to find:</p>
+        <ul>
+          <li><strong>Reflected XSS</strong> — Look for unsanitized input reflected in responses</li>
+          <li><strong>IDOR</strong> — Check if you can access other users' data by changing an ID parameter</li>
+          <li><strong>Open Redirect</strong> — Find redirect parameters that don't validate the target URL</li>
+          <li><strong>Information Disclosure</strong> — Check responses for internal paths, emails, or stack traces</li>
+        </ul>
+
+        <h3>Reporting Tips</h3>
+        <p>When you find a bug, write a clear report:</p>
+        <ol>
+          <li>Describe the vulnerability and its impact</li>
+          <li>Include step-by-step reproduction steps</li>
+          <li>Provide a proof-of-concept (screenshot or video)</li>
+          <li>Suggest a fix if possible</li>
+        </ol>
+
+        <p><span class="prompt">$</span> echo "Happy hunting!"</p>
+      </div>
+
+      <p class="section-footer"><a href="../index.html">~ back to blog</a></p>
+    </article>
+  </main>
+
+  <footer>
+    <div class="footer-container">
+      <p class="footer-prompt">j0yb0y@site:~/blog/posts$ <span class="blink">_</span></p>
+      <p class="footer-copy">&copy; 2026 j0yb0y &mdash; Built with &lt;/&gt; on Kali Linux</p>
+    </div>
+  </footer>
+
+  <script src="../../script.js"></script>
+</body>
+</html>

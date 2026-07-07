@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>j0yb0y ~ port scanner in Go</title>
+  <link rel="icon" type="image/png" href="../../ppic.png">
+  <link rel="stylesheet" href="../../style.css">
+</head>
+<body>
+  <div id="matrix-canvas"></div>
+
+  <nav>
+    <div class="nav-container">
+      <span class="nav-prompt">j0yb0y@site:~/blog/posts$</span>
+      <ul class="nav-links">
+        <li><a href="../../index.html">~/home</a></li>
+        <li><a href="../../index.html#skills">~/skills</a></li>
+        <li><a href="../../index.html#projects">~/projects</a></li>
+        <li><a href="../index.html">~/blog</a></li>
+        <li><a href="../../index.html#contact">~/contact</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <main>
+    <article id="post">
+      <h2 class="section-title"><span class="prompt">#</span> ~/blog/posts/port-scanner-go</h2>
+      <div class="divider">---</div>
+      <p class="blog-meta">2026-05-28 &middot; 8 min read</p>
+
+      <div class="post-content">
+        <p><span class="prompt">$</span> cat building-a-port-scanner-in-go.md</p>
+
+        <h3>Why Go?</h3>
+        <p>Go's concurrency model makes it ideal for port scanning. Goroutines let us scan hundreds of ports simultaneously with minimal overhead.</p>
+
+        <h3>Basic Structure</h3>
+        <p>A port scanner needs to:</p>
+        <ol>
+          <li>Resolve the target hostname to an IP</li>
+          <li>Open a TCP connection to each port</li>
+          <li>Report which ports are open</li>
+        </ol>
+
+        <h3>Simple Example</h3>
+        <pre><code>package main
+
+import (
+    "fmt"
+    "net"
+    "sync"
+)
+
+func scanPort(host string, port int, wg *sync.WaitGroup) {
+    defer wg.Done()
+    addr := fmt.Sprintf("%s:%d", host, port)
+    conn, err := net.Dial("tcp", addr)
+    if err != nil {
+        return
+    }
+    conn.Close()
+    fmt.Printf("[OPEN] %d\n", port)
+}
+
+func main() {
+    var wg sync.WaitGroup
+    for port := 1; port <= 1024; port++ {
+        wg.Add(1)
+        go scanPort("scanme.nmap.org", port, &wg)
+    }
+    wg.Wait()
+}</code></pre>
+
+        <h3>Improvements</h3>
+        <p>Add a worker pool to limit concurrency, timeout handling, and service detection via banner grabbing.</p>
+      </div>
+
+      <p class="section-footer"><a href="../index.html">~ back to blog</a></p>
+    </article>
+  </main>
+
+  <footer>
+    <div class="footer-container">
+      <p class="footer-prompt">j0yb0y@site:~/blog/posts$ <span class="blink">_</span></p>
+      <p class="footer-copy">&copy; 2026 j0yb0y &mdash; Built with &lt;/&gt; on Kali Linux</p>
+    </div>
+  </footer>
+
+  <script src="../../script.js"></script>
+</body>
+</html>

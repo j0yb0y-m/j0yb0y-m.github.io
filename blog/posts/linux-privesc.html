@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>j0yb0y ~ linux privesc basics</title>
+  <link rel="icon" type="image/png" href="../../ppic.png">
+  <link rel="stylesheet" href="../../style.css">
+</head>
+<body>
+  <div id="matrix-canvas"></div>
+
+  <nav>
+    <div class="nav-container">
+      <span class="nav-prompt">j0yb0y@site:~/blog/posts$</span>
+      <ul class="nav-links">
+        <li><a href="../../index.html">~/home</a></li>
+        <li><a href="../../index.html#skills">~/skills</a></li>
+        <li><a href="../../index.html#projects">~/projects</a></li>
+        <li><a href="../index.html">~/blog</a></li>
+        <li><a href="../../index.html#contact">~/contact</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <main>
+    <article id="post">
+      <h2 class="section-title"><span class="prompt">#</span> ~/blog/posts/linux-privesc</h2>
+      <div class="divider">---</div>
+      <p class="blog-meta">2026-04-10 &middot; 6 min read</p>
+
+      <div class="post-content">
+        <p><span class="prompt">$</span> cat linux-privesc-basics.md</p>
+
+        <h3>Enumerate First</h3>
+        <p>Run these to understand the target:</p>
+        <pre><code>uname -a
+cat /etc/os-release
+sudo -l
+ls -la /etc/passwd /etc/shadow
+find / -perm -4000 2>/dev/null
+cat /etc/crontab
+ss -tuln</code></pre>
+
+        <h3>Common Vectors</h3>
+        <ul>
+          <li><strong>SUID Binaries</strong> — Find binaries with the SUID bit that can be exploited</li>
+          <li><strong>Sudo Misconfigurations</strong> — Check if you can run commands as root without a password</li>
+          <li><strong>Kernel Exploits</strong> — Old kernels may have known privilege escalation exploits</li>
+          <li><strong>Cron Jobs</strong> — Writable scripts executed by root</li>
+        </ul>
+
+        <h3>Automation Tools</h3>
+        <ul>
+          <li><strong>LinPEAS</strong> — Comprehensive enumeration script</li>
+          <li><strong>GTFOBins</strong> — Exploitable SUID binaries reference</li>
+          <li><strong>Linux Exploit Suggester</strong> — Checks kernel version against known exploits</li>
+        </ul>
+      </div>
+
+      <p class="section-footer"><a href="../index.html">~ back to blog</a></p>
+    </article>
+  </main>
+
+  <footer>
+    <div class="footer-container">
+      <p class="footer-prompt">j0yb0y@site:~/blog/posts$ <span class="blink">_</span></p>
+      <p class="footer-copy">&copy; 2026 j0yb0y &mdash; Built with &lt;/&gt; on Kali Linux</p>
+    </div>
+  </footer>
+
+  <script src="../../script.js"></script>
+</body>
+</html>
