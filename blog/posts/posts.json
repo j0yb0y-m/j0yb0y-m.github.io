@@ -1,0 +1,50 @@
+[
+  {
+    "title": "Getting Started with Bug Bounties",
+    "date": "2026-06-15",
+    "readtime": 5,
+    "description": "A practical guide to finding your first vulnerability and submitting a responsible disclosure report.",
+    "tags": [
+      "bug-bounty",
+      "web-security",
+      "beginner"
+    ],
+    "filename": "bug-bounties-101.html"
+  },
+  {
+    "title": "Building a Port Scanner in Go",
+    "date": "2026-05-28",
+    "readtime": 8,
+    "description": "Walk through writing a concurrent port scanner using Go's goroutines and net package.",
+    "tags": [
+      "go",
+      "networking",
+      "tools"
+    ],
+    "filename": "port-scanner-go.html"
+  },
+  {
+    "title": "Linux Privilege Escalation Basics",
+    "date": "2026-04-10",
+    "readtime": 6,
+    "description": "Common misconfigurations and kernel exploits used to escalate from low-priv to root on Linux.",
+    "tags": [
+      "linux",
+      "privilege-escalation",
+      "pentesting"
+    ],
+    "filename": "linux-privesc.html"
+  },
+  {
+    "title": "Setting Up a Home Lab for Pentesting",
+    "date": "2026-03-22",
+    "readtime": 7,
+    "description": "How to build a virtualized pentesting lab with vulnerable machines, network segmentation, and monitoring.",
+    "tags": [
+      "homelab",
+      "pentesting",
+      "virtualization"
+    ],
+    "filename": "home-lab.html"
+  }
+]

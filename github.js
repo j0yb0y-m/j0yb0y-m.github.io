@@ -1,10 +1,7 @@
 const GitHubAPI = (() => {
   const REPO_CACHE_KEY = 'gh_repos';
-  const BLOG_CACHE_KEY = 'blog_posts';
   const REPO_TTL = 60 * 60 * 1000;
-  const BLOG_TTL = 24 * 60 * 60 * 1000;
   const USERNAME = 'j0yb0y-m';
-  const REPO_NAME = 'j0yb0y-m.github.io';
 
   function getCache(key) {
     try {
@@ -58,26 +55,5 @@ const GitHubAPI = (() => {
     return filtered;
   }
 
-  async function fetchBlogFiles() {
-    const cached = getCache(BLOG_CACHE_KEY);
-    if (cached) return cached;
-
-    const res = await fetch(
-      `https://api.github.com/repos/${USERNAME}/${REPO_NAME}/contents/blog/posts`
-    );
-    if (!res.ok) throw new Error(`GitHub API error: ${res.status}`);
-    const files = await res.json();
-    const htmlFiles = files
-      .filter(f => f.name.endsWith('.html'))
-      .map(f => ({
-        name: f.name,
-        download_url: f.download_url,
-        path: f.path
-      }));
-
-    setCache(BLOG_CACHE_KEY, htmlFiles, BLOG_TTL);
-    return htmlFiles;
-  }
-
-  return { fetchRepos, fetchBlogFiles, getCache, setCache };
+  return { fetchRepos, getCache, setCache };
 })();

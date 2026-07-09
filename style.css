@@ -4,7 +4,7 @@
    Font: monospace
    ============================================= */
 
-@import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;600;700&display=swap');
+/* Font loaded via <link> in HTML head for non-blocking parse */
 
 :root {
   --bg: #000000;
@@ -959,6 +959,14 @@ section.revealed {
   opacity: 1;
   transform: translateY(0);
 }
+
+/* ========== SYNTAX HIGHLIGHTING ========== */
+
+.hl-kw { color: #ff79c6; }
+.hl-str { color: #f1fa8c; }
+.hl-cmt { color: #6272a4; font-style: italic; }
+.hl-num { color: #bd93f9; }
+.hl-bi { color: #8be9fd; }
 
 /* ========== CARD GLOW PULSE ========== */
 

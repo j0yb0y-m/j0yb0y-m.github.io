@@ -82,8 +82,18 @@ function startMatrix() {
   if (matrixInterval) clearInterval(matrixInterval);
   matrixInterval = setInterval(drawMatrix, 50);
 }
-startMatrix();
-window.addEventListener('resize', initMatrix);
+function stopMatrix() {
+  if (matrixInterval) { clearInterval(matrixInterval); matrixInterval = null; }
+}
+
+const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+if (!prefersReducedMotion) {
+  startMatrix();
+  window.addEventListener('resize', initMatrix);
+  document.addEventListener('visibilitychange', () => {
+    document.hidden ? stopMatrix() : startMatrix();
+  });
+}
 
 // ========== SKILL BAR OBSERVER ==========
 const skillFills = document.querySelectorAll('.skill-fill');
@@ -105,17 +115,18 @@ skillFills.forEach((el) => skillObserver.observe(el));
 const sections = document.querySelectorAll('section[id]');
 const navLinks = document.querySelectorAll('.nav-links a');
 
-function highlightNav() {
-  let current = '';
-  sections.forEach((section) => {
-    const top = section.offsetTop - 120;
-    if (window.scrollY >= top) current = section.getAttribute('id');
+const navObserver = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      const id = entry.target.getAttribute('id');
+      navLinks.forEach(link => {
+        link.style.color = link.getAttribute('href') === `#${id}` ? 'var(--green)' : '';
+      });
+    }
   });
-  navLinks.forEach((link) => {
-    link.style.color = link.getAttribute('href') === `#${current}` ? 'var(--green)' : '';
-  });
-}
-window.addEventListener('scroll', highlightNav);
+}, { rootMargin: '-120px 0px -70% 0px', threshold: 0 });
+
+sections.forEach(section => navObserver.observe(section));
 
 // ========== CONSOLE EASTER EGG ==========
 console.log('%c j0yb0y ', 'background: #00ff41; color: #000; font-size: 1.2rem; font-weight: bold; padding: 4px 8px;');
@@ -153,7 +164,7 @@ async function loadProjects() {
 
   function createProjectCard(repo) {
     const card = document.createElement('div');
-    card.className = 'project-card';
+    card.className = 'project-card revealed';
     card.dataset.language = repo.language || '';
 
     const langColor = LANGUAGE_COLORS[repo.language] || '#888';
