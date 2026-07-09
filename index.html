@@ -8,31 +8,57 @@
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
+  <div id="reading-progress" aria-hidden="true"></div>
   <div id="matrix-canvas"></div>
 
-  <nav>
+  <nav role="navigation" aria-label="Main navigation">
     <div class="nav-container">
       <span class="nav-prompt">j0yb0y@site:~$</span>
+      <button id="menu-toggle" class="menu-toggle" aria-label="Toggle menu" aria-expanded="false">[=]</button>
       <ul class="nav-links">
         <li><a href="#hero">~/home</a></li>
-        <li><a href="#skills">~/skills</a></li>
         <li><a href="#projects">~/projects</a></li>
+        <li><a href="#skills">~/skills</a></li>
         <li><a href="#blog">~/blog</a></li>
         <li><a href="#contact">~/contact</a></li>
       </ul>
     </div>
   </nav>
 
-  <main>
-    <!-- HERO -->
+  <div id="mobile-menu-overlay" class="mobile-menu-overlay" aria-hidden="true">
+    <nav class="mobile-nav">
+      <a href="#hero">~/home</a>
+      <a href="#projects">~/projects</a>
+      <a href="#skills">~/skills</a>
+      <a href="#blog">~/blog</a>
+      <a href="#contact">~/contact</a>
+    </nav>
+  </div>
+
+  <div id="command-palette" class="command-palette-overlay" aria-hidden="true">
+    <div class="command-palette">
+      <div class="command-prompt-line">
+        <span class="prompt">&gt;_</span>
+        <input type="text" id="command-input" placeholder="search..." aria-label="Command palette search" autocomplete="off">
+      </div>
+      <div id="command-results" class="command-results" role="listbox"></div>
+      <div class="command-hint">
+        <span>[↑↓] navigate</span>
+        <span>[enter] select</span>
+        <span>[esc] close</span>
+      </div>
+    </div>
+  </div>
+
+  <main role="main">
     <section id="hero">
       <div class="hero-content">
         <div class="profile-pic">
-          <img src="ppic.png" alt="j0yb0y">
+          <img src="ppic.png" alt="j0yb0y profile picture">
         </div>
         <div class="ascii-art">
           <pre>
-/$$      /$$           /$$             /$$ /$$
+ /$$      /$$           /$$             /$$ /$$
 | $$$    /$$$          | $$            | $$|__/
 | $$$$  /$$$$  /$$$$$$ | $$$$$$$   /$$$$$$$ /$$
 | $$ $$/$$ $$ |____  $$| $$__  $$ /$$__  $$| $$
@@ -43,7 +69,7 @@
           </pre>
         </div>
         <h1 class="hero-title">
-          <span class="prompt">></span>
+          <span class="prompt">&gt;</span>
           <span class="typewriter" id="typewriter"></span><span class="cursor">_</span>
         </h1>
         <p class="hero-subtitle">Cybersecurity Engineering Student &middot; Junior Penetration Tester &middot; Developer</p>
@@ -56,41 +82,27 @@
           <span class="badge">SQL</span>
         </div>
         <div class="hero-links">
-          <a href="https://github.com/j0yb0y-m" target="_blank" class="btn">[github]</a>
-          <a href="https://www.linkedin.com/in/mahdi-hassan-80ba14393/" target="_blank" class="btn">[linkedin]</a>
-          <a href="mailto:jb.mahdi@outlook.com" class="btn">[email]</a>
+          <a href="https://github.com/j0yb0y-m" target="_blank" rel="noopener" class="btn" aria-label="GitHub profile">[github]</a>
+          <a href="https://www.linkedin.com/in/mahdi-hassan-80ba14393/" target="_blank" rel="noopener" class="btn" aria-label="LinkedIn profile">[linkedin]</a>
+          <a href="mailto:jb.mahdi@outlook.com" class="btn" aria-label="Send email">[email]</a>
         </div>
       </div>
     </section>
 
-    <!-- BLOG -->
-    <section id="blog">
-      <h2 class="section-title"><span class="prompt">#</span> ~/blog</h2>
+    <section id="projects">
+      <h2 class="section-title"><span class="prompt">#</span> ~/projects</h2>
       <div class="divider">---</div>
-      <div class="blog-grid">
-        <article class="blog-card">
-          <h3 class="blog-title">Getting Started with Bug Bounties</h3>
-          <p class="blog-meta">2026-06-15 &middot; 5 min read</p>
-          <p>A practical guide to finding your first vulnerability and submitting a responsible disclosure report.</p>
-          <a href="blog/posts/bug-bounties-101.html" class="read-more">[read more]</a>
-        </article>
-        <article class="blog-card">
-          <h3 class="blog-title">Building a Port Scanner in Go</h3>
-          <p class="blog-meta">2026-05-28 &middot; 8 min read</p>
-          <p>Walk through writing a concurrent port scanner using Go's goroutines and net package.</p>
-          <a href="blog/posts/port-scanner-go.html" class="read-more">[read more]</a>
-        </article>
-        <article class="blog-card">
-          <h3 class="blog-title">Linux Privilege Escalation Basics</h3>
-          <p class="blog-meta">2026-04-10 &middot; 6 min read</p>
-          <p>Common misconfigurations and kernel exploits used to escalate from low-priv to root on Linux.</p>
-          <a href="blog/posts/linux-privesc.html" class="read-more">[read more]</a>
-        </article>
+      <div class="project-filters" aria-label="Filter projects">
+        <div id="project-filter-buttons" class="filter-buttons"></div>
+        <div id="project-sort" class="sort-toggle"></div>
       </div>
-      <p class="section-footer"><a href="blog/index.html">view all posts →</a></p>
+      <div id="project-grid" class="project-grid" aria-live="polite">
+        <div class="project-card skeleton"><div class="skeleton-line"></div><div class="skeleton-line short"></div></div>
+        <div class="project-card skeleton"><div class="skeleton-line"></div><div class="skeleton-line short"></div></div>
+        <div class="project-card skeleton"><div class="skeleton-line"></div><div class="skeleton-line short"></div></div>
+      </div>
     </section>
 
-    <!-- SKILLS -->
     <section id="skills">
       <h2 class="section-title"><span class="prompt">#</span> ~/skills</h2>
       <div class="divider">---</div>
@@ -121,75 +133,19 @@
       </div>
     </section>
 
-    <!-- PROJECTS -->
-    <section id="projects">
-      <h2 class="section-title"><span class="prompt">#</span> ~/projects</h2>
+    <section id="blog">
+      <h2 class="section-title"><span class="prompt">#</span> ~/blog</h2>
       <div class="divider">---</div>
-      <div class="project-grid">
-        <div class="project-card">
-          <div class="project-header">
-            <span class="project-icon">&gt;_</span>
-            <h3>ptCenter</h3>
-          </div>
-          <p>AI-powered penetration testing framework with automated reconnaissance, vulnerability scanning, and reporting modules.</p>
-          <div class="project-tags">
-            <span class="tag">Python</span>
-            <span class="tag">AI</span>
-            <span class="tag">Pentesting</span>
-          </div>
-          <div class="project-links">
-            <a href="https://github.com/j0yb0y-m/ptCenter" target="_blank" class="btn-small">[source]</a>
-          </div>
-        </div>
-        <div class="project-card">
-          <div class="project-header">
-            <span class="project-icon">&gt;_</span>
-            <h3>loot</h3>
-          </div>
-          <p>Install packages from any package manager — dnf, apt, pip, cargo, go, npm, gem, snap, flatpak, brew, or GitHub releases — using a simple text file as a manifest.</p>
-          <div class="project-tags">
-            <span class="tag">Python</span>
-            <span class="tag">DevOps</span>
-            <span class="tag">CLI</span>
-          </div>
-          <div class="project-links">
-            <a href="https://github.com/j0yb0y-m/loot" target="_blank" class="btn-small">[source]</a>
-          </div>
-        </div>
-        <div class="project-card">
-          <div class="project-header">
-            <span class="project-icon">&gt;_</span>
-            <h3>BasicCodeRunner</h3>
-          </div>
-          <p>Secure, multi-language code execution tool that compiles and runs source files in 16+ programming languages with resource constraints and safety features.</p>
-          <div class="project-tags">
-            <span class="tag">C++</span>
-            <span class="tag">Sandbox</span>
-            <span class="tag">DevOps</span>
-          </div>
-          <div class="project-links">
-            <a href="https://github.com/j0yb0y-m/BasicCodeRunner" target="_blank" class="btn-small">[source]</a>
-          </div>
-        </div>
-        <div class="project-card">
-          <div class="project-header">
-            <span class="project-icon">&gt;_</span>
-            <h3>DADF</h3>
-          </div>
-          <p>Damn Awesome Dir Finder — a Python 3 script to brute-force sub-directories on web servers during reconnaissance.</p>
-          <div class="project-tags">
-            <span class="tag">Python</span>
-            <span class="tag">Recon</span>
-            <span class="tag">CLI</span>
-          </div>
-          <div class="project-links">
-            <a href="https://github.com/j0yb0y-m/DADF" target="_blank" class="btn-small">[source]</a>
-          </div>
-        </div>
+      <div class="blog-search-container">
+        <span class="prompt">$</span>
+        <span class="blog-search-label">grep -i "</span>
+        <input type="text" id="blog-search" class="blog-search-input" placeholder="search posts..." aria-label="Search blog posts">
+        <span class="blog-search-label">"</span>
       </div>
+      <div id="blog-grid" class="blog-grid" aria-live="polite"></div>
+      <p class="section-footer"><a href="blog/index.html">view all posts &rarr;</a></p>
     </section>
 
-    <!-- CONTACT -->
     <section id="contact">
       <h2 class="section-title"><span class="prompt">#</span> ~/contact</h2>
       <div class="divider">---</div>
@@ -197,23 +153,28 @@
         <p class="contact-text">$ echo "Get in touch"</p>
         <div class="contact-links">
           <a href="mailto:jb.mahdi@outlook.com" class="contact-item">[+] email: jb.mahdi@outlook.com</a>
-          <a href="https://github.com/j0yb0y-m" target="_blank" class="contact-item">[+] github: /j0yb0y-m</a>
-          <a href="https://www.linkedin.com/in/mahdi-hassan-80ba14393/" target="_blank" class="contact-item">[+] linkedin: /in/mahdi-hassan</a>
+          <a href="https://github.com/j0yb0y-m" target="_blank" rel="noopener" class="contact-item">[+] github: /j0yb0y-m</a>
+          <a href="https://www.linkedin.com/in/mahdi-hassan-80ba14393/" target="_blank" rel="noopener" class="contact-item">[+] linkedin: /in/mahdi-hassan</a>
           <a href="#" class="contact-item">[+] discord: thej0yb0y</a>
-          <a href="https://instagram.com/m26ki" target="_blank" class="contact-item">[+] instagram: @m26ki</a>
+          <a href="https://instagram.com/m26ki" target="_blank" rel="noopener" class="contact-item">[+] instagram: @m26ki</a>
         </div>
         <p class="contact-outro">Open for CTF collabs, security research, and internship opportunities.</p>
       </div>
     </section>
   </main>
 
-  <footer>
+  <footer role="contentinfo">
     <div class="footer-container">
       <p class="footer-prompt">j0yb0y@site:~$ <span class="blink">_</span></p>
       <p class="footer-copy">&copy; 2026 j0yb0y &mdash; Built with &lt;/&gt; on Kali Linux</p>
     </div>
   </footer>
 
+  <button id="back-to-top" class="back-to-top" aria-label="Back to top">[^ top]</button>
+
+  <script src="github.js"></script>
+  <script src="blog.js"></script>
+  <script src="ui.js"></script>
   <script src="script.js"></script>
 </body>
 </html>
