@@ -32,20 +32,15 @@ const Blog = (() => {
   }
 
   async function loadPosts(containerEl, limit = 0) {
+    const postsPath = window.location.pathname.includes('/blog/posts/') ? 'posts.json' : window.location.pathname.includes('/blog/') ? 'posts/posts.json' : 'blog/posts/posts.json';
     let posts;
     try {
-      const res = await fetch('posts.json');
+      const res = await fetch(postsPath);
       if (!res.ok) throw new Error(`HTTP ${res.status}`);
       posts = await res.json();
     } catch {
-      try {
-        const res = await fetch('../posts.json');
-        if (!res.ok) throw new Error(`HTTP ${res.status}`);
-        posts = await res.json();
-      } catch {
-        containerEl.innerHTML = '<p class="section-footer">Failed to load blog posts.</p>';
-        return;
-      }
+      containerEl.innerHTML = '<p class="section-footer">Failed to load blog posts.</p>';
+      return;
     }
 
     const basePath = window.location.pathname.includes('/blog/') ? '' : 'blog/posts/';
