@@ -95,11 +95,6 @@ body::after {
 
 /* ========== TYPOGRAPHY ========== */
 
-::selection {
-  background: var(--green);
-  color: #000;
-}
-
 a {
   color: var(--green);
   text-decoration: none;
@@ -590,5 +585,477 @@ footer {
     flex-direction: column;
     gap: 0.5rem;
     text-align: center;
+  }
+}
+
+/* ========== READING PROGRESS BAR ========== */
+
+#reading-progress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 2px;
+  width: 0%;
+  background: var(--green);
+  box-shadow: 0 0 8px var(--green-glow);
+  z-index: 1001;
+  transition: width 0.1s linear;
+}
+
+/* ========== MOBILE MENU ========== */
+
+.menu-toggle {
+  display: none;
+  background: none;
+  border: 1px solid var(--green-dim);
+  color: var(--green);
+  font-family: var(--font);
+  font-size: 1rem;
+  padding: 0.3rem 0.6rem;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.menu-toggle:hover {
+  background: var(--green-dark);
+}
+
+.mobile-menu-overlay {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.95);
+  z-index: 999;
+  justify-content: center;
+  align-items: center;
+}
+
+.mobile-menu-overlay.active {
+  display: flex;
+}
+
+.mobile-nav {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  text-align: center;
+}
+
+.mobile-nav a {
+  color: var(--green);
+  font-size: 1.4rem;
+  text-decoration: none;
+  transition: text-shadow 0.2s;
+}
+
+.mobile-nav a:hover {
+  text-shadow: 0 0 12px var(--green-glow);
+}
+
+/* ========== COMMAND PALETTE ========== */
+
+.command-palette-overlay {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.85);
+  z-index: 2000;
+  justify-content: center;
+  align-items: flex-start;
+  padding-top: 15vh;
+}
+
+.command-palette-overlay.active {
+  display: flex;
+}
+
+.command-palette {
+  background: var(--bg-alt);
+  border: 1px solid var(--green-dim);
+  width: 90%;
+  max-width: 560px;
+  box-shadow: 0 0 30px var(--green-glow);
+}
+
+.command-prompt-line {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 1rem;
+  border-bottom: 1px solid var(--green-dark);
+}
+
+.command-prompt-line .prompt {
+  font-size: 1rem;
+  flex-shrink: 0;
+}
+
+#command-input {
+  background: transparent;
+  border: none;
+  color: #fff;
+  font-family: var(--font);
+  font-size: 1rem;
+  width: 100%;
+  outline: none;
+  caret-color: var(--green);
+}
+
+#command-input::placeholder {
+  color: var(--text-dim);
+}
+
+.command-results {
+  max-height: 300px;
+  overflow-y: auto;
+  padding: 0.5rem 0;
+}
+
+.command-result {
+  padding: 0.6rem 1rem;
+  color: var(--text);
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.command-result:hover,
+.command-result.selected {
+  background: var(--green-dark);
+  color: var(--green);
+}
+
+.command-hint {
+  display: flex;
+  justify-content: center;
+  gap: 1.5rem;
+  padding: 0.5rem;
+  border-top: 1px solid var(--green-dark);
+  font-size: 0.7rem;
+  color: var(--text-dim);
+}
+
+/* ========== BACK TO TOP ========== */
+
+.back-to-top {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background: var(--bg-alt);
+  border: 1px solid var(--green-dim);
+  color: var(--green);
+  font-family: var(--font);
+  font-size: 0.8rem;
+  padding: 0.4rem 0.8rem;
+  cursor: pointer;
+  z-index: 100;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s, visibility 0.3s, background 0.2s;
+}
+
+.back-to-top.visible {
+  opacity: 1;
+  visibility: visible;
+}
+
+.back-to-top:hover {
+  background: var(--green-dark);
+  box-shadow: 0 0 10px var(--green-glow);
+}
+
+/* ========== PROJECT FILTERS & SORT ========== */
+
+.project-filters {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.8rem;
+  margin-bottom: 1.5rem;
+}
+
+.filter-buttons,
+.sort-toggle {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+
+.filter-btn,
+.sort-btn {
+  background: transparent;
+  border: 1px solid var(--green-dark);
+  color: var(--text-dim);
+  font-family: var(--font);
+  font-size: 0.7rem;
+  padding: 0.25rem 0.6rem;
+  cursor: pointer;
+  text-transform: uppercase;
+  transition: all 0.2s;
+}
+
+.filter-btn:hover,
+.sort-btn:hover {
+  border-color: var(--green-dim);
+  color: var(--green);
+}
+
+.filter-btn.active,
+.sort-btn.active {
+  border-color: var(--green);
+  color: var(--green);
+  background: var(--green-dark);
+}
+
+/* ========== PROJECT STATS ========== */
+
+.project-stats {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.8rem;
+  margin-bottom: 1rem;
+  font-size: 0.75rem;
+}
+
+.stat {
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+  color: var(--text-dim);
+}
+
+.stat.dim {
+  opacity: 0.6;
+}
+
+.lang-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+/* ========== SKELETON LOADING ========== */
+
+.project-card.skeleton {
+  border: 1px solid var(--green-dark);
+  padding: 1.5rem;
+  animation: skeletonPulse 1.5s ease-in-out infinite;
+}
+
+.skeleton-line {
+  height: 12px;
+  background: var(--green-dark);
+  margin-bottom: 0.8rem;
+  border-radius: 2px;
+}
+
+.skeleton-line.short {
+  width: 60%;
+}
+
+@keyframes skeletonPulse {
+  0%, 100% { opacity: 0.4; }
+  50% { opacity: 0.8; }
+}
+
+/* ========== BLOG SEARCH ========== */
+
+.blog-search-container {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  margin-bottom: 1.5rem;
+  font-size: 0.9rem;
+}
+
+.blog-search-label {
+  color: var(--green-dim);
+}
+
+.blog-search-input {
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid var(--green-dark);
+  color: #fff;
+  font-family: var(--font);
+  font-size: 0.9rem;
+  padding: 0.3rem 0.5rem;
+  width: 200px;
+  outline: none;
+  caret-color: var(--green);
+  transition: border-color 0.2s;
+}
+
+.blog-search-input:focus {
+  border-bottom-color: var(--green);
+}
+
+.blog-search-input::placeholder {
+  color: var(--text-dim);
+}
+
+.blog-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.3rem;
+  margin-bottom: 0.8rem;
+}
+
+.blog-tag {
+  cursor: pointer;
+  transition: color 0.2s, border-color 0.2s;
+}
+
+.blog-tag:hover {
+  color: var(--green);
+  border-color: var(--green);
+}
+
+/* ========== ERROR CARD ========== */
+
+.error-card {
+  text-align: center;
+  grid-column: 1 / -1;
+}
+
+.error-card p {
+  margin-bottom: 1rem;
+  color: var(--text-dim);
+}
+
+/* ========== SCROLL REVEAL ========== */
+
+section {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+section.revealed {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.project-card,
+.blog-card,
+.skill-category {
+  opacity: 0;
+  transform: translateY(10px);
+  transition: opacity 0.4s ease, transform 0.4s ease;
+}
+
+.project-card.revealed,
+.blog-card.revealed,
+.skill-category.revealed {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ========== CARD GLOW PULSE ========== */
+
+@keyframes glowPulse {
+  0%, 100% { box-shadow: 0 0 8px var(--green-glow); }
+  50% { box-shadow: 0 0 18px var(--green-glow); }
+}
+
+.project-card:hover {
+  animation: glowPulse 2s ease-in-out infinite;
+}
+
+/* ========== ACCESSIBILITY ========== */
+
+:focus-visible {
+  outline: 2px solid var(--green);
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+
+  section,
+  .project-card,
+  .blog-card,
+  .skill-category {
+    opacity: 1;
+    transform: none;
+  }
+
+  #reading-progress {
+    display: none;
+  }
+}
+
+/* ========== TABLET BREAKPOINT ========== */
+
+@media (min-width: 769px) and (max-width: 1024px) {
+  .skills-grid,
+  .project-grid,
+  .blog-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* ========== RESPONSIVE OVERRIDES ========== */
+
+@media (max-width: 768px) {
+  .menu-toggle {
+    display: block;
+  }
+
+  .nav-links {
+    display: none;
+  }
+
+  .ascii-art pre {
+    font-size: 0.3rem;
+  }
+
+  .hero-title {
+    font-size: 1.3rem;
+  }
+
+  .skills-grid,
+  .project-grid,
+  .blog-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .footer-container {
+    flex-direction: column;
+    gap: 0.5rem;
+    text-align: center;
+  }
+
+  .project-filters {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .blog-search-input {
+    width: 150px;
+  }
+
+  .command-palette {
+    width: 95%;
+  }
+
+  .command-hint {
+    flex-wrap: wrap;
+    gap: 0.8rem;
   }
 }
