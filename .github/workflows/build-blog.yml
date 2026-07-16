@@ -1,0 +1,33 @@
+name: Build and Commit Blog
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'blog/posts/*.md'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.head_ref }}
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Build Blog
+        run: node build.js
+
+      - name: Commit changes
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: "Auto-build blog HTML and update JSON [skip ci]"
+          file_pattern: 'blog/posts/*.html blog/posts/posts.json sitemap.xml'

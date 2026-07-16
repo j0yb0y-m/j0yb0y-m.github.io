@@ -1,8 +1,19 @@
 [
   {
+    "title": "My First Automated Post",
+    "date": "2026-07-16",
+    "readtime": 5,
+    "description": "A short description of the post.",
+    "tags": [
+      "tag1",
+      "tag2"
+    ],
+    "filename": "my-first-automated-post.html"
+  },
+  {
     "title": "Getting Started with Bug Bounties",
     "date": "2026-06-15",
-    "readtime": 5,
+    "readtime": 10,
     "description": "A practical guide to finding your first vulnerability and submitting a responsible disclosure report.",
     "tags": [
       "bug-bounty",
@@ -14,8 +25,8 @@
   {
     "title": "Building a Port Scanner in Go",
     "date": "2026-05-28",
-    "readtime": 8,
-    "description": "Walk through writing a concurrent port scanner using Go's goroutines and net package.",
+    "readtime": 14,
+    "description": "Walk through writing a concurrent port scanner using Go's goroutines, wait groups, and worker pools.",
     "tags": [
       "go",
       "networking",
@@ -26,7 +37,7 @@
   {
     "title": "Linux Privilege Escalation Basics",
     "date": "2026-04-10",
-    "readtime": 6,
+    "readtime": 15,
     "description": "Common misconfigurations and kernel exploits used to escalate from low-priv to root on Linux.",
     "tags": [
       "linux",
@@ -38,7 +49,7 @@
   {
     "title": "Setting Up a Home Lab for Pentesting",
     "date": "2026-03-22",
-    "readtime": 7,
+    "readtime": 12,
     "description": "How to build a virtualized pentesting lab with vulnerable machines, network segmentation, and monitoring.",
     "tags": [
       "homelab",

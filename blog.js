@@ -22,6 +22,11 @@ const Blog = (() => {
       .join(' ');
 
     card.innerHTML = `
+      <div class="window-controls">
+        <div class="window-dot close"></div>
+        <div class="window-dot minimize"></div>
+        <div class="window-dot maximize"></div>
+      </div>
       <h3 class="blog-title">${post.title}</h3>
       <p class="blog-meta">${post.date}${post.readtime ? ` &middot; ${post.readtime} min read` : ''}</p>
       <p>${post.description}</p>
@@ -43,7 +48,12 @@ const Blog = (() => {
       return;
     }
 
-    const basePath = window.location.pathname.includes('/blog/') ? '' : 'blog/posts/';
+    let basePath = 'blog/posts/';
+    if (window.location.pathname.includes('/blog/posts/')) {
+      basePath = '';
+    } else if (window.location.pathname.includes('/blog/')) {
+      basePath = 'posts/';
+    }
 
     posts.sort((a, b) => new Date(b.date) - new Date(a.date));
     const displayPosts = limit > 0 ? posts.slice(0, limit) : posts;

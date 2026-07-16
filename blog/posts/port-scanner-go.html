@@ -4,18 +4,18 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>j0yb0y ~ Building a Port Scanner in Go</title>
-  <meta name="description" content="Walk through writing a concurrent port scanner using Go's goroutines and net package.">
+  <meta name="description" content="Walk through writing a concurrent port scanner using Go's goroutines, wait groups, and worker pools.">
   <meta name="keywords" content="go, networking, tools">
   <meta name="author" content="j0yb0y">
   <meta property="og:title" content="Building a Port Scanner in Go">
-  <meta property="og:description" content="Walk through writing a concurrent port scanner using Go's goroutines and net package.">
+  <meta property="og:description" content="Walk through writing a concurrent port scanner using Go's goroutines, wait groups, and worker pools.">
   <meta property="og:type" content="article">
   <meta property="og:url" content="https://j0yb0y-m.github.io/blog/posts/port-scanner-go.html">
   <meta property="og:image" content="https://j0yb0y-m.github.io/ppic.webp">
   <meta property="og:site_name" content="j0yb0y">
   <meta name="twitter:card" content="summary">
   <meta name="twitter:title" content="Building a Port Scanner in Go">
-  <meta name="twitter:description" content="Walk through writing a concurrent port scanner using Go's goroutines and net package.">
+  <meta name="twitter:description" content="Walk through writing a concurrent port scanner using Go's goroutines, wait groups, and worker pools.">
   <meta name="twitter:image" content="https://j0yb0y-m.github.io/ppic.webp">
   <link rel="icon" type="image/webp" href="../../ppic.webp">
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -55,20 +55,23 @@
     <article id="post">
       <h2 class="section-title"><span class="prompt">#</span> ~/blog/posts/port-scanner-go</h2>
       <div class="divider">---</div>
-      <p class="blog-meta">2026-05-28 &middot; 8 min read</p>
+      <p class="blog-meta">2026-05-28 &middot; 14 min read</p>
 
       <div class="post-content">
         <p>$ cat building-a-port-scanner-in-go.md</p>
-<h3>Why Go?</h3>
-<p>Go's concurrency model makes it ideal for port scanning. Goroutines let us scan hundreds of ports simultaneously with minimal overhead.</p>
-<h3>Basic Structure</h3>
+<h3>Why Go for Networking Tools?</h3>
+<p>When writing network tools, performance and concurrency are critical. While Python is fantastic for quick scripting, its Global Interpreter Lock (GIL) makes true parallelism difficult. Go, on the other hand, was built from the ground up for concurrency.</p>
+<p>Go's <strong>goroutines</strong> are incredibly lightweight threads managed by the Go runtime. You can spin up thousands of them with minimal memory overhead, making Go the perfect language for a fast, concurrent port scanner.</p>
+<h3>The Basic Concept</h3>
 <p>A port scanner needs to:</p>
 <ol>
-<li>Resolve the target hostname to an IP</li>
-<li>Open a TCP connection to each port</li>
-<li>Report which ports are open</li>
+<li>Resolve the target hostname to an IP address.</li>
+<li>Attempt to open a TCP connection to each port in a given range.</li>
+<li>If the connection succeeds, the port is OPEN. If it times out or is refused, it is CLOSED or FILTERED.</li>
+<li>Report the results back to the user.</li>
 </ol>
-<h3>Simple Example</h3>
+<h3>A Naive Approach (And Why It Fails)</h3>
+<p>Here's the simplest way to scan ports concurrently:</p>
 <pre><code class="language-go"><span class="hl-kw">package</span> main
 
 <span class="hl-kw">import</span> (
@@ -77,27 +80,90 @@
     <span class="hl-str">&quot;sync&quot;</span>
 )
 
-<span class="hl-kw">func</span> scanPort(host string, port int, wg *<span class="hl-bi">sync</span>.WaitGroup) {
-    <span class="hl-kw">defer</span> wg.Done()
-    addr := fmt.<span class="hl-bi">Sprintf</span>(<span class="hl-str">&quot;%s:%d&quot;</span>, host, port)
-    conn, err := <span class="hl-bi">net</span>.Dial(<span class="hl-str">&quot;tcp&quot;</span>, addr)
-    <span class="hl-kw">if</span> err != <span class="hl-kw">nil</span> {
-        <span class="hl-kw">return</span>
-    }
-    conn.Close()
-    fmt.<span class="hl-bi">Printf</span>(<span class="hl-str">&quot;[OPEN] %d\n&quot;</span>, port)
-}
-
 <span class="hl-kw">func</span> main() {
     <span class="hl-kw">var</span> wg <span class="hl-bi">sync</span>.WaitGroup
-    <span class="hl-kw">for</span> port := <span class="hl-num">1</span>; port &lt;= <span class="hl-num">1024</span>; port++ {
+    <span class="hl-kw">for</span> port := <span class="hl-num">1</span>; port &lt;= <span class="hl-num">65535</span>; port++ {
         wg.Add(<span class="hl-num">1</span>)
-        <span class="hl-kw">go</span> scanPort(<span class="hl-str">&quot;scanme.nmap.org&quot;</span>, port, &amp;wg)
+        <span class="hl-kw">go</span> <span class="hl-kw">func</span>(p int) {
+            <span class="hl-kw">defer</span> wg.Done()
+            addr := fmt.<span class="hl-bi">Sprintf</span>(<span class="hl-str">&quot;scanme.nmap.org:%d&quot;</span>, p)
+            conn, err := <span class="hl-bi">net</span>.Dial(<span class="hl-str">&quot;tcp&quot;</span>, addr)
+            <span class="hl-kw">if</span> err == <span class="hl-kw">nil</span> {
+                fmt.<span class="hl-bi">Printf</span>(<span class="hl-str">&quot;[OPEN] %d\n&quot;</span>, p)
+                conn.Close()
+            }
+        }(port)
     }
     wg.Wait()
 }</code></pre>
-<h3>Improvements</h3>
-<p>Add a worker pool to limit concurrency, timeout handling, and service detection via banner grabbing.</p>
+<p><strong>The Problem:</strong> This code fires off 65,535 goroutines simultaneously. Your operating system limits the number of file descriptors (network connections) a process can have open at once (often around 1024 on Linux). Firing 65k connections at once will result in a massive flood of &quot;too many open files&quot; errors, and the scan will fail.</p>
+<h3>The Solution: Worker Pools</h3>
+<p>To scan fast without crashing our network stack or OS limits, we need a <strong>Worker Pool</strong>. We create a fixed number of workers (e.g., 100), and feed them ports to scan via a Go <code>channel</code>.</p>
+<p>Here is a robust, production-ready port scanner:</p>
+<pre><code class="language-go"><span class="hl-kw">package</span> main
+
+<span class="hl-kw">import</span> (
+    <span class="hl-str">&quot;fmt&quot;</span>
+    <span class="hl-str">&quot;net&quot;</span>
+    <span class="hl-str">&quot;sort&quot;</span>
+    <span class="hl-str">&quot;time&quot;</span>
+)
+
+<span class="hl-kw">func</span> worker(ports, results <span class="hl-kw">chan</span> int) {
+    <span class="hl-kw">for</span> p := <span class="hl-kw">range</span> ports {
+        address := fmt.<span class="hl-bi">Sprintf</span>(<span class="hl-str">&quot;scanme.nmap.org:%d&quot;</span>, p)
+        <span class="hl-cmt">// 1-second timeout prevents hanging on filtered ports</span>
+        conn, err := <span class="hl-bi">net</span>.DialTimeout(<span class="hl-str">&quot;tcp&quot;</span>, address, <span class="hl-num">1</span>*<span class="hl-bi">time</span>.Second)
+        <span class="hl-kw">if</span> err != <span class="hl-kw">nil</span> {
+            results &lt;- <span class="hl-num">0</span> <span class="hl-cmt">// 0 means closed/filtered</span>
+            <span class="hl-kw">continue</span>
+        }
+        conn.Close()
+        results &lt;- p <span class="hl-cmt">// return the open port</span>
+    }
+}
+
+<span class="hl-kw">func</span> main() {
+    ports := <span class="hl-kw">make</span>(<span class="hl-kw">chan</span> int, <span class="hl-num">100</span>)
+    results := <span class="hl-kw">make</span>(<span class="hl-kw">chan</span> int)
+    <span class="hl-kw">var</span> openports []int
+
+    <span class="hl-cmt">// 1. Start 100 workers</span>
+    <span class="hl-kw">for</span> i := <span class="hl-num">0</span>; i &lt; <span class="hl-kw">cap</span>(ports); i++ {
+        <span class="hl-kw">go</span> worker(ports, results)
+    }
+
+    <span class="hl-cmt">// 2. Feed ports to the workers in a separate goroutine</span>
+    <span class="hl-kw">go</span> <span class="hl-kw">func</span>() {
+        <span class="hl-kw">for</span> i := <span class="hl-num">1</span>; i &lt;= <span class="hl-num">1024</span>; i++ {
+            ports &lt;- i
+        }
+    }()
+
+    <span class="hl-cmt">// 3. Gather results</span>
+    <span class="hl-kw">for</span> i := <span class="hl-num">0</span>; i &lt; <span class="hl-num">1024</span>; i++ {
+        port := &lt;-results
+        <span class="hl-kw">if</span> port != <span class="hl-num">0</span> {
+            openports = <span class="hl-kw">append</span>(openports, port)
+        }
+    }
+
+    <span class="hl-kw">close</span>(ports)
+    <span class="hl-kw">close</span>(results)
+
+    <span class="hl-cmt">// 4. Sort and print results</span>
+    sort.Ints(openports)
+    <span class="hl-kw">for</span> _, port := <span class="hl-kw">range</span> openports {
+        fmt.<span class="hl-bi">Printf</span>(<span class="hl-str">&quot;Port %d is open\n&quot;</span>, port)
+    }
+}</code></pre>
+<h3>Next Steps</h3>
+<p>To turn this into a professional tool, you could:</p>
+<ol>
+<li><strong>Add CLI Flags:</strong> Use the <code>flag</code> package to accept target IPs, port ranges, and concurrency limits from the command line.</li>
+<li><strong>Banner Grabbing:</strong> Once a port is open, send a basic payload (like <code>GET / HTTP/1.0\r\n\r\n</code>) and read the response to identify the service.</li>
+<li><strong>UDP Scanning:</strong> Implement UDP support, keeping in mind that UDP scanning is inherently slower and less reliable due to its connectionless nature.</li>
+</ol>
 
       </div>
 

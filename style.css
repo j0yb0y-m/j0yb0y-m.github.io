@@ -7,14 +7,18 @@
 /* Font loaded via <link> in HTML head for non-blocking parse */
 
 :root {
-  --bg: #000000;
-  --bg-alt: #0a0a0a;
+  --bg: #0a0e14;
+  --bg-alt: #0f141b;
+  --glass-bg: rgba(10, 14, 20, 0.65);
+  --glass-border: rgba(0, 255, 65, 0.2);
   --green: #00ff41;
   --green-dim: #00aa2a;
   --green-dark: #003300;
-  --green-glow: rgba(0, 255, 65, 0.15);
-  --text: #c0c0c0;
-  --text-dim: #666666;
+  --green-glow: rgba(0, 255, 65, 0.25);
+  --cyan: #00f0ff;
+  --cyan-glow: rgba(0, 240, 255, 0.25);
+  --text: #e0e6ed;
+  --text-dim: #8a9bb2;
   --font: 'Fira Code', 'Courier New', monospace;
 }
 
@@ -310,14 +314,19 @@ section {
 }
 
 .blog-card {
-  border: 1px solid var(--green-dark);
+  background: var(--glass-bg);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid var(--glass-border);
+  border-radius: 8px;
   padding: 1.5rem;
-  transition: border-color 0.3s, box-shadow 0.3s;
+  transition: border-color 0.3s, box-shadow 0.3s, background 0.3s;
 }
 
 .blog-card:hover {
-  border-color: var(--green-dim);
-  box-shadow: 0 0 12px var(--green-glow);
+  border-color: var(--cyan);
+  box-shadow: 0 0 16px var(--cyan-glow), inset 0 0 10px var(--cyan-glow);
+  background: rgba(10, 14, 20, 0.8);
 }
 
 .blog-title {
@@ -349,11 +358,20 @@ section {
   gap: 2rem;
 }
 
+.skill-category {
+  background: var(--glass-bg);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid var(--glass-border);
+  border-radius: 8px;
+  padding: 1.5rem;
+}
+
 .skill-category h3 {
   font-size: 1rem;
   margin-bottom: 1rem;
-  color: var(--green);
-  border-bottom: 1px solid var(--green-dark);
+  color: var(--cyan);
+  border-bottom: 1px solid var(--glass-border);
   padding-bottom: 0.4rem;
 }
 
@@ -420,16 +438,38 @@ section {
 }
 
 .project-card {
-  border: 1px solid var(--green-dark);
+  background: var(--glass-bg);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid var(--glass-border);
+  border-radius: 8px;
   padding: 1.5rem;
-  transition: border-color 0.3s, box-shadow 0.3s, transform 0.2s;
+  transition: border-color 0.3s, box-shadow 0.3s, transform 0.2s, background 0.3s;
 }
 
 .project-card:hover {
-  border-color: var(--green);
-  box-shadow: 0 0 16px var(--green-glow);
+  border-color: var(--cyan);
+  box-shadow: 0 0 16px var(--cyan-glow), inset 0 0 10px var(--cyan-glow);
+  background: rgba(10, 14, 20, 0.8);
   transform: translateY(-2px);
 }
+
+/* Window Controls */
+.window-controls {
+  display: flex;
+  gap: 6px;
+  margin-bottom: 1.2rem;
+}
+
+.window-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+}
+
+.window-dot.close { background: #ff5f56; }
+.window-dot.minimize { background: #ffbd2e; }
+.window-dot.maximize { background: #27c93f; }
 
 .project-header {
   display: flex;
@@ -664,7 +704,9 @@ footer {
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(0, 0, 0, 0.85);
+  background: rgba(10, 14, 20, 0.6);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
   z-index: 2000;
   justify-content: center;
   align-items: flex-start;
@@ -676,11 +718,14 @@ footer {
 }
 
 .command-palette {
-  background: var(--bg-alt);
-  border: 1px solid var(--green-dim);
+  background: var(--glass-bg);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid var(--cyan);
+  border-radius: 12px;
   width: 90%;
   max-width: 560px;
-  box-shadow: 0 0 30px var(--green-glow);
+  box-shadow: 0 0 40px var(--cyan-glow);
 }
 
 .command-prompt-line {
@@ -688,7 +733,7 @@ footer {
   align-items: center;
   gap: 0.5rem;
   padding: 1rem;
-  border-bottom: 1px solid var(--green-dark);
+  border-bottom: 1px solid var(--glass-border);
 }
 
 .command-prompt-line .prompt {
@@ -727,8 +772,8 @@ footer {
 
 .command-result:hover,
 .command-result.selected {
-  background: var(--green-dark);
-  color: var(--green);
+  background: var(--cyan-glow);
+  color: var(--cyan);
 }
 
 .command-hint {
@@ -736,7 +781,7 @@ footer {
   justify-content: center;
   gap: 1.5rem;
   padding: 0.5rem;
-  border-top: 1px solid var(--green-dark);
+  border-top: 1px solid var(--glass-border);
   font-size: 0.7rem;
   color: var(--text-dim);
 }

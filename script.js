@@ -62,9 +62,9 @@ function initMatrix() {
 const chars = 'アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲン0123456789ABCDEF<>/{}[]|&^%$#@!';
 
 function drawMatrix() {
-  ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
+  ctx.fillStyle = 'rgba(10, 14, 20, 0.1)';
   ctx.fillRect(0, 0, canvas.width, canvas.height);
-  ctx.fillStyle = '#00ff41';
+  ctx.fillStyle = 'rgba(0, 255, 65, 0.4)';
   ctx.font = '14px monospace';
   for (let i = 0; i < matrixDrops.length; i++) {
     const char = chars[Math.floor(Math.random() * chars.length)];
@@ -172,6 +172,11 @@ async function loadProjects() {
       .map(t => `<span class="tag">${t}</span>`).join('');
 
     card.innerHTML = `
+      <div class="window-controls">
+        <div class="window-dot close"></div>
+        <div class="window-dot minimize"></div>
+        <div class="window-dot maximize"></div>
+      </div>
       <div class="project-header">
         <span class="project-icon">&gt;_</span>
         <h3>${repo.name}</h3>
