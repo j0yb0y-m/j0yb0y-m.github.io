@@ -1,233 +1,73 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>j0yb0y &lt;~$ ~/portfolio</title>
-  <meta name="description" content="Cybersecurity Engineering Student, Junior Penetration Tester, and Developer. Portfolio showcasing projects, blog posts, and skills.">
-  <meta property="og:title" content="j0yb0y ~ portfolio">
-  <meta property="og:description" content="Cybersecurity Engineering Student, Junior Penetration Tester, and Developer.">
-  <meta property="og:image" content="https://j0yb0y-m.github.io/ppic.webp">
-  <meta property="og:url" content="https://j0yb0y-m.github.io">
-  <meta property="og:type" content="website">
-  <meta property="og:site_name" content="j0yb0y">
-  <meta name="twitter:card" content="summary">
-  <meta name="twitter:title" content="j0yb0y ~ portfolio">
-  <meta name="twitter:description" content="Cybersecurity Engineering Student, Junior Penetration Tester, and Developer.">
-  <meta name="twitter:image" content="https://j0yb0y-m.github.io/ppic.webp">
-  <link rel="icon" type="image/webp" href="ppic.webp">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;600;700&display=swap">
-  <link rel="stylesheet" href="style.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Mahdi (j0yb0y) — Penetration Tester & Programmer</title>
+<meta name="description" content="Mahdi aka j0yb0y — cybersecurity engineering student, penetration tester and programmer.">
+<meta name="theme-color" content="#0b0a09">
+<link rel="icon" href="favicon.ico" sizes="any">
+<link rel="icon" href="favicon-32.png" type="image/png" sizes="32x32">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<script src="main.js" defer></script>
 </head>
 <body>
-  <div id="reading-progress" aria-hidden="true"></div>
-  <div id="matrix-canvas"></div>
+<header class="nav"><div class="wrap">
+  <a class="brand" href="#home">J0yB0y<span class="cur">_</span></a>
+  <nav><a href="#about">about</a><a href="#skills">skills</a><a href="#projects">projects</a><a href="#contact">contact</a></nav>
+</div></header>
 
-  <nav role="navigation" aria-label="Main navigation">
-    <div class="nav-container">
-      <span class="nav-prompt">j0yb0y@site:~$</span>
-      <button id="menu-toggle" class="menu-toggle" aria-label="Toggle menu" aria-expanded="false">[=]</button>
-      <ul class="nav-links">
-        <li><a href="#hero">~/home</a></li>
-        <li><a href="#projects">~/projects</a></li>
-        <li><a href="#skills">~/skills</a></li>
-        <li><a href="#blog">~/blog</a></li>
-        <li><a href="#contact">~/contact</a></li>
-      </ul>
-    </div>
-  </nav>
-
-  <div id="mobile-menu-overlay" class="mobile-menu-overlay" aria-hidden="true">
-    <nav class="mobile-nav">
-      <a href="#hero">~/home</a>
-      <a href="#projects">~/projects</a>
-      <a href="#skills">~/skills</a>
-      <a href="#blog">~/blog</a>
-      <a href="#contact">~/contact</a>
-    </nav>
+<main>
+<section id="home" class="wrap hero">
+  <img class="pfp" src="pfp.png" width="220" height="220" alt="Pixel-art avatar of Mahdi">
+  <div>
+    <p class="badge"><i></i> Open to internships &amp; opportunities</p>
+    <h1>Mahdi <span class="dim">aka</span> <span class="hl">j0yb0y</span></h1>
+    <p class="prompt">$ <span id="typed"></span><span class="cur">█</span></p>
+    <p class="lead">Cybersecurity engineering student, junior penetration tester and programmer, maybe a vibe coder :). I break things to understand them, then build tools so they stay fixed.</p>
+    <p class="cta"><a class="btn" href="#projects">View projects</a><a class="btn ghost" href="#contact">Contact</a></p>
   </div>
+</section>
 
-  <div id="command-palette" class="command-palette-overlay" aria-hidden="true">
-    <div class="command-palette">
-      <div class="command-prompt-line">
-        <span class="prompt">&gt;_</span>
-        <input type="text" id="command-input" placeholder="search..." aria-label="Command palette search" autocomplete="off">
-      </div>
-      <div id="command-results" class="command-results" role="listbox"></div>
-      <div class="command-hint">
-        <span>[↑↓] navigate</span>
-        <span>[enter] select</span>
-        <span>[esc] close</span>
-      </div>
-    </div>
+<section id="about" class="wrap reveal">
+  <h2><span>01</span> About</h2>
+  <p>I'm a cybersecurity engineering college student focused on network and web penetration testing, with a working knowledge of Active Directory and cloud pentesting. I also write backend code in Go and Python (FastAPI), run containers on Docker and Kubernetes, and live on Linux every day. I love tech and security, and I'm always learning and improving.</p>
+</section>
+
+<section id="skills" class="wrap reveal">
+  <h2><span>02</span> Skills <small>dashed = learning / basics</small></h2>
+  <div class="groups">
+    <div><h3>Offensive security</h3><ul><li>Network pentesting<li>Web pentesting<li class="l">Active Directory<li class="l">Cloud pentesting<li>CTFs</ul></div>
+    <div><h3>Languages</h3><ul><li>Python<li>Bash<li>Go<li>JavaScript<li>C<li>C++<li class="l">Rust<li>PowerShell<li>SQL</ul></div>
+    <div><h3>Backend &amp; DevOps</h3><ul><li>Go<li>Python FastAPI<li>Docker<li>Kubernetes</ul></div>
+    <div><h3>Linux</h3><ul><li>Debian / Ubuntu<li>Arch-based<li>RHEL</ul></div>
+    <div><h3>Embedded &amp; IoT</h3><ul><li class="l">ESP32<li class="l">Arduino<li class="l">RPi Zero W<li class="l">RPi Pico<li>Raspberry Pi<li class="l">RTOS</ul></div>
   </div>
+</section>
 
-  <main role="main">
-    <section id="hero">
-      <div class="hero-content">
-        <div class="profile-pic">
-          <img src="ppic.webp" alt="j0yb0y profile picture">
-        </div>
-        <div class="ascii-art">
-          <pre>
- /$$      /$$           /$$             /$$ /$$
-| $$$    /$$$          | $$            | $$|__/
-| $$$$  /$$$$  /$$$$$$ | $$$$$$$   /$$$$$$$ /$$
-| $$ $$/$$ $$ |____  $$| $$__  $$ /$$__  $$| $$
-| $$  $$$| $$  /$$$$$$$| $$  \ $$| $$  | $$| $$
-| $$\  $ | $$ /$$__  $$| $$  | $$| $$  | $$| $$
-| $$ \/  | $$|  $$$$$$$| $$  | $$|  $$$$$$$| $$
-|__/     |__/ \_______/|__/  |__/ \_______/|__/
-          </pre>
-        </div>
-        <h1 class="hero-title">
-          <span class="prompt">&gt;</span>
-          <span class="typewriter" id="typewriter"></span><span class="cursor">_</span>
-        </h1>
-        <p class="hero-subtitle">Cybersecurity Engineering Student &middot; Junior Penetration Tester &middot; Developer</p>
-        <div class="hero-badges">
-          <span class="badge">Python</span>
-          <span class="badge">Go</span>
-          <span class="badge">C</span>
-          <span class="badge">C++</span>
-          <span class="badge">Web</span>
-          <span class="badge">SQL</span>
-        </div>
-        <div class="hero-links">
-          <a href="https://github.com/j0yb0y-m" target="_blank" rel="noopener" class="btn" aria-label="GitHub profile">[github]</a>
-          <a href="https://www.linkedin.com/in/mahdi-hassan-80ba14393/" target="_blank" rel="noopener" class="btn" aria-label="LinkedIn profile">[linkedin]</a>
-          <a href="mailto:jb.mahdi@outlook.com" class="btn" aria-label="Send email">[email]</a>
-        </div>
-      </div>
-    </section>
+<section id="projects" class="reveal">
+  <div class="wrap"><h2><span>03</span> Projects <small>click a card to open the repo</small></h2></div>
+  <div class="marquee" id="gallery" aria-live="polite"><p class="wrap muted">Loading projects…</p></div>
+</section>
 
-    <section id="projects">
-      <h2 class="section-title"><span class="prompt">#</span> ~/projects</h2>
-      <div class="divider">---</div>
-      <div class="project-filters" aria-label="Filter projects">
-        <div id="project-filter-buttons" class="filter-buttons"></div>
-        <div id="project-sort" class="sort-toggle"></div>
-      </div>
-      <div id="project-grid" class="project-grid" aria-live="polite">
-        <div class="project-card skeleton">
-          <div class="window-controls">
-            <div class="window-dot close"></div>
-            <div class="window-dot minimize"></div>
-            <div class="window-dot maximize"></div>
-          </div>
-          <div class="skeleton-line"></div>
-          <div class="skeleton-line short"></div>
-        </div>
-        <div class="project-card skeleton">
-          <div class="window-controls">
-            <div class="window-dot close"></div>
-            <div class="window-dot minimize"></div>
-            <div class="window-dot maximize"></div>
-          </div>
-          <div class="skeleton-line"></div>
-          <div class="skeleton-line short"></div>
-        </div>
-        <div class="project-card skeleton">
-          <div class="window-controls">
-            <div class="window-dot close"></div>
-            <div class="window-dot minimize"></div>
-            <div class="window-dot maximize"></div>
-          </div>
-          <div class="skeleton-line"></div>
-          <div class="skeleton-line short"></div>
-        </div>
-      </div>
-    </section>
+<section id="contact" class="wrap reveal">
+  <h2><span>04</span> Contact</h2>
+  <div class="contact">
+    <a class="card" href="mailto:jb.mahdi@outlook.com"><b>$ email</b>jb.mahdi@outlook.com</a>
+    <a class="card" href="https://github.com/j0yb0y-m" target="_blank" rel="noopener noreferrer"><b>$ github</b>j0yb0y-m</a>
+    <a class="card" href="https://www.instagram.com/m26ki" target="_blank" rel="noopener noreferrer"><b>$ instagram</b>m26ki</a>
+    <button class="card" type="button" data-copy="the.j0yb0y"><b>$ discord</b><span>the.j0yb0y <em>(click to copy)</em></span></button>
+    <a class="card" href="https://tryhackme.com/p/the.j0yb0y" target="_blank" rel="noopener noreferrer"><b>$ tryhackme</b>the.j0yb0y</a>
+    <a class="card" href="https://app.hackthebox.com/users/2382302" target="_blank" rel="noopener noreferrer"><b>$ hackthebox</b>user 2382302</a>
+  </div>
+</section>
+</main>
 
-    <section id="skills">
-      <h2 class="section-title"><span class="prompt">#</span> ~/skills</h2>
-      <div class="divider">---</div>
-      <div class="skills-grid">
-        <div class="skill-category">
-          <div class="window-controls">
-            <div class="window-dot close"></div>
-            <div class="window-dot minimize"></div>
-            <div class="window-dot maximize"></div>
-          </div>
-          <h3>Languages</h3>
-          <div class="skill-bar"><span class="skill-label">Python</span><span class="skill-fill" style="width:90%"></span><span class="skill-pct">90%</span></div>
-          <div class="skill-bar"><span class="skill-label">Go</span><span class="skill-fill" style="width:75%"></span><span class="skill-pct">75%</span></div>
-          <div class="skill-bar"><span class="skill-label">C / C++</span><span class="skill-fill" style="width:70%"></span><span class="skill-pct">70%</span></div>
-          <div class="skill-bar"><span class="skill-label">JavaScript</span><span class="skill-fill" style="width:75%"></span><span class="skill-pct">75%</span></div>
-          <div class="skill-bar"><span class="skill-label">SQL</span><span class="skill-fill" style="width:65%"></span><span class="skill-pct">65%</span></div>
-        </div>
-        <div class="skill-category">
-          <div class="window-controls">
-            <div class="window-dot close"></div>
-            <div class="window-dot minimize"></div>
-            <div class="window-dot maximize"></div>
-          </div>
-          <h3>Security</h3>
-          <div class="skill-bar"><span class="skill-label">Pentesting</span><span class="skill-fill" style="width:85%"></span><span class="skill-pct">85%</span></div>
-          <div class="skill-bar"><span class="skill-label">Web Attacks</span><span class="skill-fill" style="width:80%"></span><span class="skill-pct">80%</span></div>
-          <div class="skill-bar"><span class="skill-label">Reverse Eng.</span><span class="skill-fill" style="width:55%"></span><span class="skill-pct">55%</span></div>
-          <div class="skill-bar"><span class="skill-label">Network Sec.</span><span class="skill-fill" style="width:75%"></span><span class="skill-pct">75%</span></div>
-        </div>
-        <div class="skill-category">
-          <div class="window-controls">
-            <div class="window-dot close"></div>
-            <div class="window-dot minimize"></div>
-            <div class="window-dot maximize"></div>
-          </div>
-          <h3>Tools</h3>
-          <div class="skill-bar"><span class="skill-label">Burp Suite</span><span class="skill-fill" style="width:85%"></span><span class="skill-pct">85%</span></div>
-          <div class="skill-bar"><span class="skill-label">Metasploit</span><span class="skill-fill" style="width:70%"></span><span class="skill-pct">70%</span></div>
-          <div class="skill-bar"><span class="skill-label">Wireshark</span><span class="skill-fill" style="width:75%"></span><span class="skill-pct">75%</span></div>
-          <div class="skill-bar"><span class="skill-label">Nmap</span><span class="skill-fill" style="width:90%"></span><span class="skill-pct">90%</span></div>
-          <div class="skill-bar"><span class="skill-label">Docker</span><span class="skill-fill" style="width:70%"></span><span class="skill-pct">70%</span></div>
-        </div>
-      </div>
-    </section>
-
-    <section id="blog">
-      <h2 class="section-title"><span class="prompt">#</span> ~/blog</h2>
-      <div class="divider">---</div>
-      <div class="blog-search-container">
-        <span class="prompt">$</span>
-        <span class="blog-search-label">grep -i "</span>
-        <input type="text" id="blog-search" class="blog-search-input" placeholder="search posts..." aria-label="Search blog posts">
-        <span class="blog-search-label">"</span>
-      </div>
-      <div id="blog-grid" class="blog-grid" aria-live="polite"></div>
-      <p class="section-footer"><a href="blog/index.html">view all posts &rarr;</a></p>
-    </section>
-
-    <section id="contact">
-      <h2 class="section-title"><span class="prompt">#</span> ~/contact</h2>
-      <div class="divider">---</div>
-      <div class="contact-content">
-        <p class="contact-text">$ echo "Get in touch"</p>
-        <div class="contact-links">
-          <a href="mailto:jb.mahdi@outlook.com" class="contact-item">[+] email: jb.mahdi@outlook.com</a>
-          <a href="https://github.com/j0yb0y-m" target="_blank" rel="noopener" class="contact-item">[+] github: /j0yb0y-m</a>
-          <a href="https://www.linkedin.com/in/mahdi-hassan-80ba14393/" target="_blank" rel="noopener" class="contact-item">[+] linkedin: /in/mahdi-hassan</a>
-          <a href="#" class="contact-item">[+] discord: thej0yb0y</a>
-          <a href="https://instagram.com/m26ki" target="_blank" rel="noopener" class="contact-item">[+] instagram: @m26ki</a>
-        </div>
-        <p class="contact-outro">Open for CTF collabs, security research, and internship opportunities.</p>
-      </div>
-    </section>
-  </main>
-
-  <footer role="contentinfo">
-    <div class="footer-container">
-      <p class="footer-prompt">j0yb0y@site:~$ <span class="blink">_</span></p>
-      <p class="footer-copy">&copy; 2026 j0yb0y &mdash; Built with &lt;/&gt; on Kali Linux</p>
-    </div>
-  </footer>
-
-  <button id="back-to-top" class="back-to-top" aria-label="Back to top">[^ top]</button>
-
-  <script src="github.js"></script>
-  <script src="blog.js"></script>
-  <script src="ui.js"></script>
-  <script src="script.js"></script>
+<footer><div class="wrap"><span>© <span id="yr">2026</span> Mahdi · j0yb0y</span><a href="#home">back to top ↑</a></div></footer>
+<noscript><p class="wrap muted">JavaScript is needed for the animations and project gallery.</p></noscript>
 </body>
 </html>

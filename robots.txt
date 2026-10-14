@@ -1,4 +1,0 @@
-User-agent: *
-Allow: /
-
-Sitemap: https://j0yb0y-m.github.io/sitemap.xml
