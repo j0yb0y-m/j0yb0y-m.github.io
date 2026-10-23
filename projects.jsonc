@@ -5,6 +5,6 @@
   {"name":"Gilgamesh","description":"Network intrusion detection system for home networks on a Raspberry Pi 4B, with Discord, Telegram and email alerts.","tags":["Python","FastAPI","Raspberry Pi"],"url":"https://github.com/j0yb0y-m/Gilgamesh"},
   {"name":"GetDezz","description":"Free, open-source Android media downloader built on yt-dlp and ffmpeg, running fully on-device.","tags":["Kotlin","Android","yt-dlp"],"url":"https://github.com/j0yb0y-m/GetDezz"},
   {"name":"piq","description":"A secure AUR helper that automatically scans PKGBUILDs for security issues before you install.","tags":["Go","Arch Linux","Security"],"url":"https://github.com/j0yb0y-m/piq"},
-  {"name":"UrukOS","description":"Iraqi-branded daily-driver and pentesting Linux distro.","tags":["Linux","Fedora","Pentesting"],"url":"https://github.com/j0yb0y-m/UrukOS"},
+  // {"name":"UrukOS","description":"Iraqi-branded daily-driver and pentesting Linux distro.","tags":["Linux","Fedora","Pentesting"],"url":"https://github.com/j0yb0y-m/UrukOS"},
   {"name":"MyUbuntu","description":"Idempotent, resumable setup for a Linux pentest workstation - one Python file, no dependencies beyond a stock Ubuntu install.","tags":["Python", "Linux"],"url":"https://github.com/j0yb0y-m/MyUbuntu"}
 ]

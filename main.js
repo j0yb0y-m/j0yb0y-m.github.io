@@ -4,7 +4,7 @@
   $('#yr').textContent = new Date().getFullYear();
 
   // Typing effect
-  const lines = ['penetration tester', 'network & web security', 'python · go · bash · rust', 'Agentic AI workflows', 'always learning'];
+  const lines = ['penetration tester', 'network & web security', 'python - go - bash - c & c++ - powershell', 'agentic AI workflows', 'always learning'];
   const out = $('#typed');
   if (reduce) out.textContent = lines[0];
   else {
@@ -33,7 +33,7 @@
     a.append(el('h4', '', p.name), el('p', '', p.description), el('div', 'tags', (p.tags || []).join(' · ')), el('div', 'go', 'view repo →'));
     return a;
   };
-  fetch('projects.json').then((r) => r.json()).then((list) => {
+  fetch('projects.jsonc').then((r) => r.json()).then((list) => {
     const g = $('#gallery'); g.replaceChildren();
     const track = el('div', 'track');
     list.forEach((p) => track.append(card(p)));
